@@ -17,3 +17,19 @@ class Billboards(models.Model):
     permission = models.DateField(db_column='Разрешение ПО', verbose_name='Разрешение ПО')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return f'{self.city} {self.address}'
+
+    class Meta:
+        db_table = 'Билборды'
+        verbose_name = 'Билборды'
+        verbose_name_plural = 'Билборды'
+        indexes = [
+            models.Index(fields=['city', 'address'], name='address_idx'),
+            models.Index(fields=['permission'], name='permission_idx'),
+        ]
+        unique_together = [
+            ['city', 'address'],
+            ['latitude', 'longitude']
+        ]
