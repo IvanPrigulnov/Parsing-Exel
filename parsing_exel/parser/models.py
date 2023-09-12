@@ -42,7 +42,7 @@ class Billboards(models.Model):
 
 
 class Sides(models.Model):
-    billboard = models.ForeignKey(Billboards, on_delete=models.CASCADE)
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
     side = models.CharField(db_column='Сторона', max_length=6, verbose_name='Сторона')
     internal_code = models.CharField(db_column='Вн. код', max_length=20, unique=True, verbose_name='Вн. код')
     photo_or_scheme = models.URLField(db_column='Фото/схема', verbose_name='Фото/схема')
@@ -62,4 +62,25 @@ class Sides(models.Model):
         verbose_name_plural = 'Стороны'
         indexes = [
             models.Index(fields=['internal_code'], name='internal_code_idx'),
+        ]
+
+
+class ESPAR(models.Model):
+    ESPAR_code = models.CharField(db_column='Код ЭСПАР', max_length=20, unique=True, verbose_name='Код Эспар')
+    GRP = models.FloatField()
+    OTS = models.FloatField()
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
+    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='ID Стороны')
+    date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
+    date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return self.ESPAR_code
+
+    class Meta:
+        db_table = 'ESPAR'
+        verbose_name = 'ESPAR'
+        verbose_name_plural = 'ESPAR'
+        indexes = [
+            models.Index(fields=['ESPAR_code'], name='ESPAR_code_idx'),
         ]
