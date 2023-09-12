@@ -84,3 +84,25 @@ class ESPAR(models.Model):
         indexes = [
             models.Index(fields=['ESPAR_code'], name='ESPAR_code_idx'),
         ]
+
+
+class Sales(models.Model):
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
+    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='ID Стороны')
+    ESPAR = models.ForeignKey(ESPAR, db_column='ID ESPAR', on_delete=models.CASCADE, verbose_name='ID ESPAR')
+    year = models.PositiveSmallIntegerField(db_column='Год', verbose_name='Год')
+    month = models.CharField(db_column='Месяц', max_length=10, verbose_name='Месяц')
+    status = models.CharField(db_column='Статус', max_length=400, null=True, verbose_name='Статус')
+    date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
+    date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return f'{self.month} {self.year}-{self.side.internal_code}'
+
+    class Meta:
+        db_table = 'Продажи'
+        verbose_name = 'Продажи'
+        verbose_name_plural = 'Продажи'
+        indexes = [
+            models.Index(fields=['status'], name='status_idx'),
+        ]
