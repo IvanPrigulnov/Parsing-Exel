@@ -17,9 +17,9 @@ class Billboards(models.Model):
     address = models.CharField(db_column='Адрес', max_length=250, verbose_name='Адрес')
     latitude = models.FloatField(db_column='Широта', verbose_name='Широта')
     longitude = models.FloatField(db_column='Долгота', verbose_name='Долгота')
-    product_restrictions = models.CharField(db_column='Ограничения по продукту', null=True, max_length=40, choices=PRODUCT_RESTRICTIONS, verbose_name='Ограничения по продукту')
-    district = models.CharField(db_column='Городской округ', null=True, max_length=100, verbose_name='Городской округ')
-    permission = models.DateField(db_column='Разрешение ПО', null=True, verbose_name='Разрешение ПО')
+    product_restrictions = models.CharField(db_column='Ограничения по продукту', null=True, blank=True, max_length=40, choices=PRODUCT_RESTRICTIONS, verbose_name='Ограничения по продукту')
+    district = models.CharField(db_column='Городской округ', null=True, blank=True, max_length=100, verbose_name='Городской округ')
+    permission = models.DateField(db_column='Разрешение ПО', null=True, blank=True, verbose_name='Разрешение ПО')
     # разобраться с форматом вводимых и автосоздаваемых дат
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
@@ -46,10 +46,10 @@ class Sides(models.Model):
     side = models.CharField(db_column='Сторона', max_length=6, verbose_name='Сторона')
     internal_code = models.CharField(db_column='Вн. код', max_length=20, unique=True, verbose_name='Вн. код')
     photo_or_scheme = models.URLField(db_column='Фото/схема', verbose_name='Фото/схема')
-    digital_views = models.PositiveSmallIntegerField(db_column='Диджитал кол-во показов', null=True, verbose_name='Диджитал кол-во показов')
-    media_material = models.CharField(db_column='Материал носителя', max_length=100, null=True, verbose_name='Материал носителя')
-    technical_requirements = models.URLField(db_column='Тех. требования', null=True, verbose_name='Тех. требования')
-    note = models.TextField(db_column='Примечание', null=True, verbose_name='Примечание')
+    digital_views = models.PositiveSmallIntegerField(db_column='Диджитал кол-во показов', null=True, blank=True,  verbose_name='Диджитал кол-во показов')
+    media_material = models.CharField(db_column='Материал носителя', max_length=100, null=True, blank=True, verbose_name='Материал носителя')
+    technical_requirements = models.URLField(db_column='Тех. требования', null=True, blank=True, verbose_name='Тех. требования')
+    note = models.TextField(db_column='Примечание', null=True, blank=True, verbose_name='Примечание')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
@@ -58,7 +58,7 @@ class Sides(models.Model):
 
     class Meta:
         db_table = 'Стороны'
-        verbose_name = 'Сторонy'
+        verbose_name = 'Сторону'
         verbose_name_plural = 'Стороны'
         indexes = [
             models.Index(fields=['internal_code'], name='internal_code_idx'),
@@ -92,7 +92,7 @@ class Sales(models.Model):
     ESPAR = models.ForeignKey(ESPAR, db_column='ID ESPAR', on_delete=models.CASCADE, verbose_name='ID ESPAR')
     year = models.PositiveSmallIntegerField(db_column='Год', verbose_name='Год')
     month = models.CharField(db_column='Месяц', max_length=10, verbose_name='Месяц')
-    status = models.CharField(db_column='Статус', max_length=400, null=True, verbose_name='Статус')
+    status = models.CharField(db_column='Статус', max_length=400, null=True, blank=True, verbose_name='Статус')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
@@ -101,7 +101,7 @@ class Sales(models.Model):
 
     class Meta:
         db_table = 'Продажи'
-        verbose_name = 'Продажy'
+        verbose_name = 'Продажу'
         verbose_name_plural = 'Продажи'
         indexes = [
             models.Index(fields=['status'], name='status_idx'),
