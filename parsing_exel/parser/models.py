@@ -11,7 +11,7 @@ class Billboards(models.Model):
         ('Табачные изделия,Алкогольные напитки', 'Табачные изделия,Алкогольные напитки')
     ]
 
-    city = models.CharField(db_column='Города', max_length=20, verbose_name='Города')
+    city = models.CharField(db_column='Города', max_length=20, verbose_name='Город')
     surface_type = models.CharField(db_column='Тип поверхности', max_length=50, verbose_name='Тип поверхности')
     lighting = models.CharField(db_column='Осв', max_length=3, choices=LIGHTING, verbose_name='Освещение')
     address = models.CharField(db_column='Адрес', max_length=250, verbose_name='Адрес')
@@ -29,7 +29,7 @@ class Billboards(models.Model):
 
     class Meta:
         db_table = 'Билборды'
-        verbose_name = 'Билборды'
+        verbose_name = 'Билборд'
         verbose_name_plural = 'Билборды'
         indexes = [
             models.Index(fields=['city', 'address'], name='address_idx'),
@@ -49,7 +49,7 @@ class Sides(models.Model):
     digital_views = models.PositiveSmallIntegerField(db_column='Диджитал кол-во показов', null=True, verbose_name='Диджитал кол-во показов')
     media_material = models.CharField(db_column='Материал носителя', max_length=100, null=True, verbose_name='Материал носителя')
     technical_requirements = models.URLField(db_column='Тех. требования', null=True, verbose_name='Тех. требования')
-    note = models.TextField(db_column='Примечение', null=True, verbose_name='Примечение')
+    note = models.TextField(db_column='Примечание', null=True, verbose_name='Примечание')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
@@ -58,7 +58,7 @@ class Sides(models.Model):
 
     class Meta:
         db_table = 'Стороны'
-        verbose_name = 'Сторона'
+        verbose_name = 'Сторонy'
         verbose_name_plural = 'Стороны'
         indexes = [
             models.Index(fields=['internal_code'], name='internal_code_idx'),
@@ -101,7 +101,7 @@ class Sales(models.Model):
 
     class Meta:
         db_table = 'Продажи'
-        verbose_name = 'Продажи'
+        verbose_name = 'Продажy'
         verbose_name_plural = 'Продажи'
         indexes = [
             models.Index(fields=['status'], name='status_idx'),
