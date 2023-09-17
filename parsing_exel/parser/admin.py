@@ -24,16 +24,37 @@ class BillboardsResources(resources.ModelResource):
 
 
 class BillboardsAdmin(ImportExportModelAdmin):
-    list_display = [field.name for field in Billboards._meta.fields if field.name != 'id']
-    resource_classes = [BillboardsResources]
+    list_display = [field.name for field in Billboards._meta.fields]
+    resource_class = BillboardsResources
 
 
 admin.site.register(Billboards, BillboardsAdmin)
 
 
-class SidesAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Sides._meta.fields if field.name != 'id']
+class SidesResources(resources.ModelResource):
+    billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    side = Field(attribute='side', column_name='Сторона')
+    internal_code = Field(attribute='internal_code', column_name='Вн. код')
+    price = Field(attribute='price', column_name='Прайс с НДС')
+    installation_price = Field(attribute='installation_price', column_name='Монтаж. Прайс с НДС')
+    plywood_price = Field(attribute='plywood_price', column_name='Переклейка. Прайс с НДС')
+    photo_or_scheme = Field(attribute='photo_or_scheme', column_name='Фото/схема')
+    digital_views = Field(attribute='digital_views', column_name='Диджитал кол-во показов')
+    media_material = Field(attribute='media_material', column_name='Материал носителя')
+    technical_requirements = Field(attribute='technical_requirements', column_name='Тех. требования')
+    note = Field(attribute='note', column_name='Примечание')
 
+    class Meta:
+        model = Sides
+        exclude = ('date_create', 'date_update')
+        fields = ('billboard',)
+
+
+class SidesAdmin(ImportExportModelAdmin):
+    list_display = [field.name for field in Sides._meta.fields if field.name != 'id']
+    resource_class = SidesResources
+
+admin.site.register(Sides, SidesAdmin)
 
 class ESPARAdmin(admin.ModelAdmin):
     list_display = [field.name for field in ESPAR._meta.fields if field.name != 'id']
@@ -44,8 +65,6 @@ class SalesAdmin(admin.ModelAdmin):
     list_filter = ['year', 'month', 'status']
 
 
-
-admin.site.register(Sides, SidesAdmin)
 admin.site.register(ESPAR, ESPARAdmin)
 admin.site.register(Sales, SalesAdmin)
 
