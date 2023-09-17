@@ -11,7 +11,7 @@ class Billboards(models.Model):
         ('Табачные изделия,Алкогольные напитки', 'Табачные изделия,Алкогольные напитки')
     ]
 
-    city = models.CharField(db_column='Города', max_length=20, verbose_name='Город')
+    city = models.CharField(db_column='Город', max_length=20, verbose_name='Город')
     surface_type = models.CharField(db_column='Тип поверхности', max_length=50, verbose_name='Тип поверхности')
     lighting = models.CharField(db_column='Осв', max_length=3, choices=LIGHTING, verbose_name='Освещение')
     address = models.CharField(db_column='Адрес', max_length=250, verbose_name='Адрес')
