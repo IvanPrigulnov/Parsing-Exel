@@ -45,6 +45,9 @@ class Sides(models.Model):
     billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
     side = models.CharField(db_column='Сторона', max_length=6, verbose_name='Сторона')
     internal_code = models.CharField(db_column='Вн. код', max_length=20, unique=True, verbose_name='Вн. код')
+    price = models.DecimalField(db_column='Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Прайс с НДС')
+    installation_price = models.DecimalField(db_column='Монтаж. Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Монтаж. Прайс с НДС')
+    plywood_price = models.DecimalField(db_column='Переклейка. Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Переклейка. Прайс с НДС')
     photo_or_scheme = models.URLField(db_column='Фото/схема', verbose_name='Фото/схема')
     digital_views = models.PositiveSmallIntegerField(db_column='Диджитал кол-во показов', null=True, blank=True,  verbose_name='Диджитал кол-во показов')
     media_material = models.CharField(db_column='Материал носителя', max_length=100, null=True, blank=True, verbose_name='Материал носителя')
@@ -106,3 +109,4 @@ class Sales(models.Model):
         indexes = [
             models.Index(fields=['status'], name='status_idx'),
         ]
+
