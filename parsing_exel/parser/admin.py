@@ -1,14 +1,14 @@
 from django.contrib import admin
 
 from import_export.admin import ImportExportModelAdmin
-from import_export import resources
+from import_export import resources, widgets
 from import_export.fields import Field
 from .models import *
 
 
 class BillboardsResources(resources.ModelResource):
     id = Field(attribute='id', column_name='ID Билборда')
-    city = Field(attribute='city', column_name='Города')
+    city = Field(attribute='city', column_name='Город')
     surface_type = Field(attribute='surface_type', column_name='Тип поверхности')
     lighting = Field(attribute='lighting', column_name='Освещение')
     address = Field(attribute='address', column_name='Адрес')
@@ -16,7 +16,7 @@ class BillboardsResources(resources.ModelResource):
     longitude = Field(attribute='longitude', column_name='Долгота')
     product_restrictions = Field(attribute='product_restrictions', column_name='Ограничения по продукту')
     district = Field(attribute='district', column_name='Городской округ')
-    permission = Field(attribute='permission', column_name='Разрешение ПО')
+    permission = Field(attribute='permission', column_name='Разрешение ПО', widget=widgets.DateWidget(format='%d.%m.%Y'))
 
     class Meta:
         model = Billboards
