@@ -20,7 +20,6 @@ class Billboards(models.Model):
     product_restrictions = models.CharField(db_column='Ограничения по продукту', null=True, blank=True, max_length=40, choices=PRODUCT_RESTRICTIONS, verbose_name='Ограничения по продукту')
     district = models.CharField(db_column='Городской округ', null=True, blank=True, max_length=100, verbose_name='Городской округ')
     permission = models.DateField(db_column='Разрешение ПО', null=True, blank=True, verbose_name='Разрешение ПО')
-    # разобраться с форматом вводимых и автосоздаваемых дат
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
