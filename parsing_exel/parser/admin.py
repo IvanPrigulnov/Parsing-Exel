@@ -33,6 +33,7 @@ admin.site.register(Billboards, BillboardsAdmin)
 
 class SidesResources(resources.ModelResource):
     billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    id = Field(attribute='id', column_name='ID Стороны')
     side = Field(attribute='side', column_name='Сторона')
     internal_code = Field(attribute='internal_code', column_name='Вн. код')
     price = Field(attribute='price', column_name='Прайс с НДС')
@@ -54,7 +55,9 @@ class SidesAdmin(ImportExportModelAdmin):
     list_display = [field.name for field in Sides._meta.fields if field.name != 'id']
     resource_class = SidesResources
 
+
 admin.site.register(Sides, SidesAdmin)
+
 
 class ESPARAdmin(admin.ModelAdmin):
     list_display = [field.name for field in ESPAR._meta.fields if field.name != 'id']
