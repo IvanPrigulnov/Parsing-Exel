@@ -59,8 +59,26 @@ class SidesAdmin(ImportExportModelAdmin):
 admin.site.register(Sides, SidesAdmin)
 
 
-class ESPARAdmin(admin.ModelAdmin):
+class ESPARResources(resources.ModelResource):
+    billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    side = Field(attribute='side', column_name='ID стороны', widget=widgets.ForeignKeyWidget(model=Sides))
+    id = Field(attribute='id', column_name='ID ЭСПАР')
+    ESPAR_code = Field(attribute='ESPAR_code', column_name='Код ЭСПАР')
+    GRP = Field()
+    OTS = Field()
+
+    class Meta:
+        model = ESPAR
+        exclude = ('date_create', 'date_update')
+        fields = ('side', 'billboard')
+
+
+class ESPARAdmin(ImportExportModelAdmin):
     list_display = [field.name for field in ESPAR._meta.fields if field.name != 'id']
+    resource_class = ESPARResources
+
+
+admin.site.register(ESPAR, ESPARAdmin)
 
 
 class SalesAdmin(admin.ModelAdmin):
@@ -68,7 +86,6 @@ class SalesAdmin(admin.ModelAdmin):
     list_filter = ['year', 'month', 'status']
 
 
-admin.site.register(ESPAR, ESPARAdmin)
 admin.site.register(Sales, SalesAdmin)
 
 
