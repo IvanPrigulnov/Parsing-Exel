@@ -41,7 +41,7 @@ class Billboards(models.Model):
 
 
 class Sides(models.Model):
-    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/Адрес билборда')
     side = models.CharField(db_column='Сторона', max_length=6, verbose_name='Сторона')
     internal_code = models.CharField(db_column='Вн. код', max_length=20, unique=True, verbose_name='Вн. код')
     price = models.DecimalField(db_column='Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Прайс с НДС')
@@ -68,11 +68,11 @@ class Sides(models.Model):
 
 
 class ESPAR(models.Model):
-    ESPAR_code = models.CharField(db_column='Код ЭСПАР', max_length=20, unique=True, verbose_name='Код Эспар')
+    ESPAR_code = models.CharField(db_column='Код ЭСПАР', max_length=20, unique=True, verbose_name='Код ЭСПАР')
     GRP = models.FloatField()
     OTS = models.FloatField()
-    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
-    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='ID Стороны')
+    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/адрес билборда')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
