@@ -35,15 +35,14 @@ class Billboards(models.Model):
             models.Index(fields=['permission'], name='permission_idx'),
         ]
         unique_together = [
-            ['city', 'address'],
             ['latitude', 'longitude']
         ]
 
 
 class Sides(models.Model):
+    internal_code = models.CharField(db_column='Вн. код', primary_key=True, max_length=20, unique=True, verbose_name='Вн. код')
     billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/Адрес билборда')
     side = models.CharField(db_column='Сторона', max_length=6, verbose_name='Сторона')
-    internal_code = models.CharField(db_column='Вн. код', max_length=20, unique=True, verbose_name='Вн. код')
     price = models.DecimalField(db_column='Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Прайс с НДС')
     installation_price = models.DecimalField(db_column='Монтаж. Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Монтаж. Прайс с НДС')
     plywood_price = models.DecimalField(db_column='Переклейка. Прайс с НДС', max_digits=10, decimal_places=2, null=True, blank=True, verbose_name='Переклейка. Прайс с НДС')
@@ -68,10 +67,10 @@ class Sides(models.Model):
 
 
 class ESPAR(models.Model):
-    ESPAR_code = models.CharField(db_column='Код ЭСПАР', max_length=20, unique=True, verbose_name='Код ЭСПАР')
+    ESPAR_code = models.CharField(db_column='Код ЭСПАР', primary_key=True, max_length=20, unique=True, verbose_name='Код ЭСПАР')
     GRP = models.FloatField()
     OTS = models.FloatField()
-    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')
+    side = models.ForeignKey(Sides, db_column='Вн. код стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')
     billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/адрес билборда')
     date_create = models.DateTimeField(db_column='Дата создания', auto_now_add=True, verbose_name='Дата создания')
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
@@ -89,9 +88,9 @@ class ESPAR(models.Model):
 
 
 class Sales(models.Model):
-    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='ID Билборда')
-    side = models.ForeignKey(Sides, db_column='ID Стороны', on_delete=models.CASCADE, verbose_name='ID Стороны')
-    ESPAR = models.ForeignKey(ESPAR, db_column='ID ESPAR', on_delete=models.CASCADE, verbose_name='ID ESPAR')
+    billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/адрес билборда')
+    side = models.ForeignKey(Sides, db_column='Вн. код стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')
+    ESPAR = models.ForeignKey(ESPAR, db_column='Код ЭСПАР', on_delete=models.CASCADE, verbose_name='Код ЭСПАР')
     year = models.PositiveSmallIntegerField(db_column='Год', verbose_name='Год')
     month = models.CharField(db_column='Месяц', max_length=10, verbose_name='Месяц')
     status = models.CharField(db_column='Статус', max_length=400, null=True, blank=True, verbose_name='Статус')
@@ -99,7 +98,7 @@ class Sales(models.Model):
     date_update = models.DateTimeField(db_column='Дата обновления', auto_now=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return f'{self.month} {self.year}-{self.side.internal_code}'
+        return f'{self.month} {self.year}-{self.status}'
 
     class Meta:
         db_table = 'Продажи'
