@@ -90,7 +90,6 @@ class ESPAR(models.Model):
 class Sales(models.Model):
     billboard = models.ForeignKey(Billboards, db_column='ID Билборда', on_delete=models.CASCADE, verbose_name='Город/адрес билборда')
     side = models.ForeignKey(Sides, db_column='Вн. код стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')
-    ESPAR = models.ForeignKey(ESPAR, db_column='Код ЭСПАР', on_delete=models.CASCADE, verbose_name='Код ЭСПАР')
     year = models.PositiveSmallIntegerField(db_column='Год', verbose_name='Год')
     month = models.CharField(db_column='Месяц', max_length=10, verbose_name='Месяц')
     status = models.CharField(db_column='Статус', max_length=400, null=True, blank=True, verbose_name='Статус')
