@@ -21,6 +21,7 @@ class BillboardsResources(resources.ModelResource):
     class Meta:
         model = Billboards
         exclude = ('date_create', 'date_update')
+        skip_unchanged = True
 
 
 class BillboardsAdmin(ImportExportModelAdmin):
@@ -49,6 +50,7 @@ class SidesResources(resources.ModelResource):
         import_id_fields = ('internal_code',)
         exclude = ('date_create', 'date_update')
         fields = ('billboard',)
+        skip_unchanged = True
 
 
 class SidesAdmin(ImportExportModelAdmin):
@@ -72,7 +74,6 @@ class ESPARResources(resources.ModelResource):
         exclude = ('date_create', 'date_update')
         fields = ('billboard', 'side')
         skip_unchanged = True
-        report_skipped = False
 
 
 class ESPARAdmin(ImportExportModelAdmin):
