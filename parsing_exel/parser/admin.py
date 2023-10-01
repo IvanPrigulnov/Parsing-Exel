@@ -33,9 +33,8 @@ admin.site.register(Billboards, BillboardsAdmin)
 
 class SidesResources(resources.ModelResource):
     billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
-    id = Field(attribute='id', column_name='ID Стороны')
-    side = Field(attribute='side', column_name='Сторона')
     internal_code = Field(attribute='internal_code', column_name='Вн. код')
+    side = Field(attribute='side', column_name='Сторона')
     price = Field(attribute='price', column_name='Прайс с НДС')
     installation_price = Field(attribute='installation_price', column_name='Монтаж. Прайс с НДС')
     plywood_price = Field(attribute='plywood_price', column_name='Переклейка. Прайс с НДС')
@@ -47,6 +46,7 @@ class SidesResources(resources.ModelResource):
 
     class Meta:
         model = Sides
+        import_id_fields = ('internal_code',)
         exclude = ('date_create', 'date_update')
         fields = ('billboard',)
 
@@ -61,16 +61,16 @@ admin.site.register(Sides, SidesAdmin)
 
 class ESPARResources(resources.ModelResource):
     billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
-    side = Field(attribute='side', column_name='ID стороны', widget=widgets.ForeignKeyWidget(model=Sides))
-    id = Field(attribute='id', column_name='ID ЭСПАР')
+    side = Field(attribute='side', column_name='Вн. код стороны', widget=widgets.ForeignKeyWidget(model=Sides))
     ESPAR_code = Field(attribute='ESPAR_code', column_name='Код ЭСПАР')
-    GRP = Field()
-    OTS = Field()
+    GRP = Field(attribute='GRP', column_name='GRP')
+    OTS = Field(attribute='OTS', column_name='OTS')
 
     class Meta:
         model = ESPAR
+        import_id_fields = ('ESPAR_code',)
         exclude = ('date_create', 'date_update')
-        fields = ('side', 'billboard')
+        fields = ('billboard', 'side')
 
 
 class ESPARAdmin(ImportExportModelAdmin):
