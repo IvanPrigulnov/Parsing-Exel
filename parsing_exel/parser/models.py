@@ -67,7 +67,7 @@ class Sides(models.Model):
 
 
 class ESPAR(models.Model):
-    ESPAR_code = models.CharField(db_column='Код ЭСПАР', primary_key=True, max_length=20, unique=True, verbose_name='Код ЭСПАР')
+    ESPAR_code = models.CharField(db_column='Код ЭСПАР', max_length=20, unique=True, verbose_name='Код ЭСПАР')
     GRP = models.FloatField()
     OTS = models.FloatField()
     side = models.ForeignKey(Sides, db_column='Вн. код стороны', on_delete=models.CASCADE, verbose_name='Вн. код стороны')

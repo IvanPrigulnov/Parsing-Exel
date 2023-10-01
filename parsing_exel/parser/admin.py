@@ -60,6 +60,7 @@ admin.site.register(Sides, SidesAdmin)
 
 
 class ESPARResources(resources.ModelResource):
+    id = Field(attribute='id', column_name='ID записи ЕСПАР')
     billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
     side = Field(attribute='side', column_name='Вн. код стороны', widget=widgets.ForeignKeyWidget(model=Sides))
     ESPAR_code = Field(attribute='ESPAR_code', column_name='Код ЭСПАР')
@@ -68,9 +69,10 @@ class ESPARResources(resources.ModelResource):
 
     class Meta:
         model = ESPAR
-        import_id_fields = ('ESPAR_code',)
         exclude = ('date_create', 'date_update')
         fields = ('billboard', 'side')
+        skip_unchanged = True
+        report_skipped = False
 
 
 class ESPARAdmin(ImportExportModelAdmin):
