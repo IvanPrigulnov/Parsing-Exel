@@ -84,9 +84,25 @@ class ESPARAdmin(ImportExportModelAdmin):
 admin.site.register(ESPAR, ESPARAdmin)
 
 
-class SalesAdmin(admin.ModelAdmin):
+class SalesResources(resources.ModelResource):
+    id = Field(attribute='id', column_name='ID продажи')
+    billboard = Field(attribute='billboard', column_name='ID билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    side = Field(attribute='side', column_name='Вн. код стороны', widget=widgets.ForeignKeyWidget(model=Sides))
+    year = Field(attribute='year', column_name='Год')
+    month = Field(attribute='month', column_name='Месяц')
+    status = Field(attribute='status', column_name='Статус')
+
+    class Meta:
+        model = Sales
+        exclude = ('date_create', 'date_update')
+        fields = ('billboard', 'side')
+        skip_unchanged = True
+
+
+class SalesAdmin(ImportExportModelAdmin):
     list_display = [field.name for field in Sales._meta.fields if field.name != 'id']
     list_filter = ['year', 'month', 'status']
+    resource_class = SalesResources
 
 
 admin.site.register(Sales, SalesAdmin)
