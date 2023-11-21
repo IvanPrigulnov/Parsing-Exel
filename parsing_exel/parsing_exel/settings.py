@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from .open_hide_url import XLSXWithHideURL
+from import_export.formats.base_formats import XLSX
 
 # from django.conf.locale.ru import formats
 
@@ -135,5 +136,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-XLSX = XLSXWithHideURL
-IMPORT_EXPORT_FORMATS = [XLSX]
+# monkey patch for getting hide URL from .xlsx file
+XLSX.create_dataset = XLSXWithHideURL.create_dataset
+
