@@ -10,7 +10,7 @@ from .custom_sales_table import sales_row_coll_converter
 
 
 class BillboardsResources(resources.ModelResource):
-    id = Field(attribute='id', column_name='ID Билборда')
+    id = Field(attribute='id', column_name='ID билборда')
     city = Field(attribute='city', column_name='Город')
     surface_type = Field(attribute='surface_type', column_name='Тип поверхности')
     lighting = Field(attribute='lighting', column_name='Освещение')
@@ -36,7 +36,7 @@ admin.site.register(Billboards, BillboardsAdmin)
 
 
 class SidesResources(resources.ModelResource):
-    billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    billboard = Field(attribute='billboard', column_name='ID билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
     internal_code = Field(attribute='internal_code', column_name='Вн. код')
     side = Field(attribute='side', column_name='Сторона')
     price = Field(attribute='price', column_name='Прайс с НДС')
@@ -67,7 +67,7 @@ admin.site.register(Sides, SidesAdmin)
 
 class ESPARResources(resources.ModelResource):
     id = Field(attribute='id', column_name='ID записи ЕСПАР')
-    billboard = Field(attribute='billboard', column_name='ID Билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
+    billboard = Field(attribute='billboard', column_name='ID билборда', widget=widgets.ForeignKeyWidget(model=Billboards))
     side = Field(attribute='side', column_name='Вн. код стороны', widget=widgets.ForeignKeyWidget(model=Sides))
     ESPAR_code = Field(attribute='ESPAR_code', column_name='Код ЭСПАР')
     GRP = Field(attribute='GRP', column_name='GRP')
@@ -103,10 +103,8 @@ class SalesResources(resources.ModelResource):
         skip_unchanged = True
 
     def before_import(self, dataset, using_transactions, dry_run, **kwargs):
-        dst = sales_row_coll_converter(dataset)
-        for _ in dst.dict:
-            print(_)
-        return dst
+        sales_row_coll_converter(dataset)
+
 
 
 class SalesAdmin(ImportExportModelAdmin):
