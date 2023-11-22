@@ -1,9 +1,12 @@
 from django.contrib import admin
 
-from import_export.admin import ImportExportModelAdmin
+
+from import_export.admin import ImportExportModelAdmin, ImportMixin
 from import_export import resources, widgets
 from import_export.fields import Field
 from .models import *
+
+from .custom_sales_table import sales_row_coll_converter
 
 
 class BillboardsResources(resources.ModelResource):
@@ -56,6 +59,7 @@ class SidesResources(resources.ModelResource):
 class SidesAdmin(ImportExportModelAdmin):
     list_display = [field.name for field in Sides._meta.fields if field.name != 'id']
     resource_class = SidesResources
+    search_fields = ['internal_code', 'billboard__city', 'billboard__address']
 
 
 admin.site.register(Sides, SidesAdmin)
@@ -97,6 +101,12 @@ class SalesResources(resources.ModelResource):
         exclude = ('date_create', 'date_update')
         fields = ('billboard', 'side')
         skip_unchanged = True
+
+    def before_import(self, dataset, using_transactions, dry_run, **kwargs):
+        dst = sales_row_coll_converter(dataset)
+        for _ in dst.dict:
+            print(_)
+        return dst
 
 
 class SalesAdmin(ImportExportModelAdmin):
